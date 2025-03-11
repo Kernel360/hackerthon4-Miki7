@@ -22,8 +22,3 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/
-
-apiKeys:
-  kobis:
-    key: "6369a7022eed43c6c3f63ee42558068a"
-
