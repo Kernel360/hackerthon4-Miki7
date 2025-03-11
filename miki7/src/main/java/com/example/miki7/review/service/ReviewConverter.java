@@ -1,6 +1,6 @@
 package com.example.miki7.review.service;
 
-import com.example.miki7.actor.db.CastEntity;
+import com.example.miki7.cast.db.CastEntity;
 import com.example.miki7.movie.db.MovieEntity;
 import com.example.miki7.review.db.ReviewEntity;
 import com.example.miki7.review.model.ReviewDto;
