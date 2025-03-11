@@ -23,4 +23,9 @@ spring:
   sql:
     init:
       data-locations: classpath:data.sql
-      mode: never
+      mode: always
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML

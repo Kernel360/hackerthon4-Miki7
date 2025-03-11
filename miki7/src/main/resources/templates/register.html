@@ -23,40 +23,40 @@
         <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                <div class="col-lg-5 d-none d-lg-block bg-register-image">
+                    <img th:src="@{/img/av.png}" alt="Register Image" style="width: 100%; height: auto;">
+                </div>
                 <div class="col-lg-7">
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                            <h1 class="h4 text-gray-900 mb-4">회원 가입</h1>
                         </div>
                         <!-- Registration Form -->
                         <form th:action="@{/user}" th:object="${userRequest}" method="post" class="user">
                             <div class="form-group">
-                                <input type="text" th:field="*{username}" class="form-control form-control-user"
-                                       id="exampleInputUsername" placeholder="Username">
+                                <input type="email" th:field="*{username}" class="form-control form-control-user"
+                                       id="exampleInputUsername" placeholder="이메일(아이디)">
                             </div>
                             <div class="form-group">
                                 <input type="text" th:field="*{nickname}" class="form-control form-control-user"
-                                       id="exampleNickname" placeholder="Nickname">
+                                       id="exampleNickname" placeholder="닉네임">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
+                            <div class="form-group">
                                     <input type="password" th:field="*{password}" class="form-control form-control-user"
-                                           id="exampleInputPassword" placeholder="Password">
-                                </div>
+                                           id="exampleInputPassword" placeholder="비밀번호">
                             </div>
                             <!-- Submit Button -->
-                            <button type="submit" class="btn btn-primary btn-user btn-block">Register Account</button>
+                            <button type="submit" class="btn btn-primary btn-user btn-block">회원 가입</button>
                         </form>
 
 
                         <!-- Links -->
                         <hr>
+<!--                        <div class="text-center">-->
+<!--                            <a th:href="@{/forgot-password}" class="small">Forgot Password?</a>-->
+<!--                        </div>-->
                         <div class="text-center">
-                            <a th:href="@{/forgot-password}" class="small">Forgot Password?</a>
-                        </div>
-                        <div class="text-center">
-                            <a th:href="@{/login}" class="small">Already have an account? Login!</a>
+                            <a th:href="@{/login}" class="small">이미 계정이 있습니다!</a>
                         </div>
                     </div>
                 </div>

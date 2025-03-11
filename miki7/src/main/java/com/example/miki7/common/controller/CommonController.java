@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class CommonController {
 
     @GetMapping(value="")
-    public String home(Model model){
+    public String home(){
         return "index";
     }
 
     // 커스텀 로그인페이지
     @GetMapping(value = "/login")
-    public String login(Model model) {
+    public String login() {
         return "login";
     }
 
@@ -25,7 +25,7 @@ public class CommonController {
         return "register"; // Thymeleaf 템플릿 이름
     }
 
-    @GetMapping("/author")
+    @GetMapping("/mypage")
     public String myPage(Model model) {
         model.addAttribute("title", "My Page Title");
         model.addAttribute("authorName", "John Doe");

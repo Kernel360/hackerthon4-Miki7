@@ -27,47 +27,33 @@
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image">
+                            <img th:src="@{/img/av.png}" alt="Login Image" style="width: 100%; height: auto;">
+                        </div>
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">로그인</h1>
                                 </div>
                                 <!-- Login Form -->
                                 <form th:action="@{/user/login}" method="post" class="user">
                                     <div class="form-group">
                                         <input type="email" name="username" class="form-control form-control-user"
                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                               placeholder="Enter Email Address...">
+                                               placeholder="이메일(아이디)">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="password" class="form-control form-control-user"
-                                               id="exampleInputPassword" placeholder="Password">
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="custom-control custom-checkbox small">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck">
-                                            <label class="custom-control-label" for="customCheck">Remember Me</label>
-                                        </div>
+                                               id="exampleInputPassword" placeholder="비밀번호">
                                     </div>
                                     <!-- Submit Button -->
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block">로그인</button>
                                     <hr>
-                                    <!-- Social Login Buttons -->
-                                    <a href="#" class="btn btn-google btn-user btn-block">
-                                        <i class="fab fa-google fa-fw"></i> Login with Google
-                                    </a>
-                                    <a href="#" class="btn btn-facebook btn-user btn-block">
-                                        <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                    </a>
                                 </form>
                                 <!-- Links -->
                                 <hr>
                                 <div class="text-center">
-                                    <a th:href="@{/forgot-password}" class="small">Forgot Password?</a>
-                                </div>
-                                <div class="text-center">
-                                    <a th:href="@{/register}" class="small">Create an Account!</a>
+                                    <a th:href="@{/register}" class="small">회원 가입</a>
                                 </div>
                             </div>
                         </div>
