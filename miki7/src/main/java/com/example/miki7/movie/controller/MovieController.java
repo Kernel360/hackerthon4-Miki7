@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/movies")
+@RequestMapping("/movie")
 @RequiredArgsConstructor
 public class MovieController {
 
@@ -27,6 +27,18 @@ public class MovieController {
     public ResponseEntity<List<MovieDto>> getMoviesByGenre(@PathVariable String genre) {
         List<MovieDto> movies = movieService.getMoviesByGenre(genre);
         return ResponseEntity.ok(movies);
+    }
+
+    // 영화 전체 조회
+    @GetMapping("/all")
+    public ResponseEntity<List<MovieDto>> getAll() {
+        List<MovieDto> movies = movieService.getAllMovies();
+        return ResponseEntity.ok(movies);
+    }
+
+    @GetMapping("/{movieId}")
+    public MovieDto getMovieId(@PathVariable Long movieId) {
+        return movieService.getMovieId(movieId);
     }
 }
 
