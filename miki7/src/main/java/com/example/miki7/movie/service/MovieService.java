@@ -7,6 +7,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -14,10 +17,30 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
 
+    // 등록
     public MovieDto createMovie(MovieDto movieDto) {
         MovieEntity movieEntity = movieDto.toEntity();
         MovieEntity movie = movieRepository.save(movieEntity);
         return MovieDto.toEntity(movie);
+    }
+
+    // 조회
+    public List<MovieDto> getMoviesByGenre(String genre) {
+        List<MovieEntity> movies = movieRepository.findMoviesByGenre(genre);
+        return movies.stream()
+                .map(movie -> MovieDto.builder()
+                        .id(movie.getId())
+                        .movieName(movie.getMovieName())
+                        .movieEnName(movie.getMovieEnName())
+                        .year(movie.getYear())
+                        .genre(movie.getGenre())
+                        .runTime(movie.getRunTime())
+                        .plot(movie.getPlot())
+                        .poster(movie.getPoster())
+                        .score(movie.getScore())
+                        .status(movie.getStatus())
+                        .build())
+                .collect(Collectors.toList());
     }
 
 }
