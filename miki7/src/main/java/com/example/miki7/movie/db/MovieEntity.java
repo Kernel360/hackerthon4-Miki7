@@ -1,12 +1,9 @@
 package com.example.miki7.movie.db;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
 @Entity
 @Table(name = "movie")
 @NoArgsConstructor

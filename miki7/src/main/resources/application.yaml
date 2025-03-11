@@ -22,4 +22,3 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/
-
