@@ -1,11 +1,13 @@
 package com.example.miki7.movie.service;
 
 import com.example.miki7.movie.db.MovieEntity;
+import com.example.miki7.movie.model.DetailSearchDto;
 import com.example.miki7.movie.model.MovieDto;
 import com.example.miki7.movie.db.MovieRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,5 +67,15 @@ public class MovieService {
     public MovieEntity findMovieById(Long id) {
 
         return movieRepository.findMovieEntityById(id);
+    }
+
+    public List<MovieEntity> detailSearchMovies(DetailSearchDto dto) {
+        return movieRepository.findByDetailConditions(
+                StringUtils.hasText(dto.getActorName()) ? dto.getActorName() : null,
+                StringUtils.hasText(dto.getCastName()) ? dto.getCastName() : null,
+                StringUtils.hasText(dto.getMovieName()) ? dto.getMovieName() : null,
+                StringUtils.hasText(dto.getGenre()) ? dto.getGenre() : null,
+                StringUtils.hasText(dto.getYear()) ? dto.getYear() : null
+        );
     }
 }

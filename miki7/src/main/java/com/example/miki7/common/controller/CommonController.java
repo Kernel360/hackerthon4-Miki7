@@ -1,5 +1,6 @@
 package com.example.miki7.common.controller;
 
+import com.example.miki7.actor.db.ActorEntity;
 import com.example.miki7.movie.db.MovieEntity;
 import com.example.miki7.movie.service.MovieService;
 import com.example.miki7.user.model.UserRequest;
