@@ -1,15 +1,20 @@
 package com.example.miki7.movie.db;
 
+import com.example.miki7.review.db.ReviewEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
+import java.util.List;
+
 @Entity
 @Table(name = "movie")
+@Getter
+@Setter(AccessLevel.PROTECTED)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MovieEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,5 +48,9 @@ public class MovieEntity {
     @Column(name = "status")
     private String status;
 
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    private List<CastEntity> castList;
 
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    private List<ReviewEntity> reviews;
 }
