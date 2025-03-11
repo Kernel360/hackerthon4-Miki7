@@ -24,14 +24,16 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/","/register","/css/**","/js/**","/vendor/**","/scss/**","/img/**","/favicon.ico","/login","/user/login","/user/logout","/user","/user/mypage","/search/**").permitAll()
+                        .requestMatchers("/", "/register", "/css/**", "/js/**", "/vendor/**", "/scss/**",
+                                "/img/**", "/favicon.ico", "/login", "/user/login", "/user/logout", "/user",
+                                "/user/mypage", "/search/**","/result/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/user/login")
-                        .defaultSuccessUrl("/",true)
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -55,7 +57,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

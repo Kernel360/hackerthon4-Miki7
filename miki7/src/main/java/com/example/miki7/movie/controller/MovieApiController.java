@@ -1,5 +1,6 @@
 package com.example.miki7.movie.controller;
 
+import com.example.miki7.movie.db.MovieEntity;
 import com.example.miki7.movie.model.MovieDto;
 import com.example.miki7.movie.service.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,8 @@ public class MovieApiController {
 
     // 영화 전체 조회
     @GetMapping("/all")
-    public ResponseEntity<List<MovieDto>> getAll() {
-        List<MovieDto> movies = movieService.getAllMovies();
+    public ResponseEntity<List<MovieEntity>> getAll() {
+        List<MovieEntity> movies = movieService.getAllMovies();
         return ResponseEntity.ok(movies);
     }
 
