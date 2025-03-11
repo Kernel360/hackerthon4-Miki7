@@ -12,6 +12,24 @@ import java.time.LocalDateTime;
 @Component
 public class ReviewConverter {
 
+    // ✅ Entity → DTO 변환 (조회 시 사용)
+    public static ReviewDto toDto(ReviewEntity review) {
+        return ReviewDto.builder()
+                .id(review.getId())
+                .reviewTitle(review.getReviewTitle())
+                .reviewContent(review.getReviewContent())
+                .reviewRating(review.getReviewRating())
+                .reviewImage(review.getReviewImage())
+                .createdAt(review.getCreatedAt())
+                .updatedAt(review.getUpdatedAt())
+                .deletedAt(review.getDeletedAt())
+                .status(review.getStatus())
+                .userId(review.getUser().getId())
+                .movieId(review.getMovie().getId())
+                .castId(review.getCast() != null ? review.getCast().getId() : null)
+                .build();
+    }
+
 
     // DTO → Entity 변환
     public ReviewEntity toEntity(ReviewDto dto, UserEntity user, MovieEntity movie, CastEntity cast) {
@@ -28,4 +46,6 @@ public class ReviewConverter {
                 .cast(cast)
                 .build();
     }
+
+
 }
