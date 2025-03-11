@@ -10,10 +10,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarsDefault">
             <ul class="navbar-nav mr-auto align-items-center">
-                <form class="bd-search hidden-sm-down">
-                    <input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="search-input" placeholder="영화나 배역을 입력해주세요!" autocomplete="off">
+                <form th:action="@{/search}" method="post" class="bd-search hidden-sm-down d-flex align-items-center">
+                    <input type="text" name="keyword" class="form-control bg-graylight border-0 font-weight-bold" id="search-input" placeholder="영화나 배역을 입력해주세요!" autocomplete="off">
+                    <button type="submit" class="btn btn-primary ml-2">검색</button>
                     <div class="dropdown-menu bd-search-results" id="search-results"></div>
-                    <button type="submit">검색</button>
                 </form>
             </ul>
             <ul class="navbar-nav ml-auto align-items-center">
