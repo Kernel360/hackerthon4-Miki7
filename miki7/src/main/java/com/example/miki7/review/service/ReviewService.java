@@ -89,6 +89,50 @@ public class ReviewService {
     }
 
 
+//    public void updateReview(ReviewDto reviewDto, Long userId) {
+//        // ✅ 리뷰 조회 (해당 리뷰가 존재하는지 확인)
+//        ReviewEntity review = reviewRepository.findById(reviewDto.getId())
+//                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 리뷰입니다."));
+//
+//        // ✅ 작성자 확인 (자신이 작성한 리뷰만 수정 가능)
+//        if (!review.getUser().getId().equals(userId)) {
+//            throw new SecurityException("본인이 작성한 리뷰만 수정할 수 있습니다.");
+//        }
+//
+//        // ✅ 리뷰 내용 업데이트 (빌더 패턴 사용)
+//        // ✅ 리뷰 내용 업데이트 (기존 엔티티 유지)
+//        ReviewEntity updatedReview = reviewConverter.toEntity(reviewDto, review.getUser(), review.getMovie(), review.getCast());
+//
+//
+//        reviewRepository.save(updatedReview); // ✅ 업데이트된 리뷰 저장
+//    }
+
+    public void updateReview(ReviewRequest reviewRequest, Long userId) {
+        // ✅ 리뷰 조회 (해당 리뷰가 존재하는지 확인)
+        ReviewEntity review = reviewRepository.findById(reviewRequest.getMovieId())  // ✅ movieId가 아니라 reviewId 사용해야 함
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 리뷰입니다."));
+
+//        // ✅ 작성자 확인 (자신이 작성한 리뷰만 수정 가능)
+//        if (!review.getUser().getId().equals(userId)) {
+//            throw new SecurityException("본인이 작성한 리뷰만 수정할 수 있습니다.");
+//        }
+
+        // 기존 값을 유지하면서 새로운 값만 변경
+        ReviewEntity updatedReview = ReviewEntity.builder()
+                .id(review.getId()) // 기존 ID 유지
+                .reviewTitle(reviewRequest.getReviewTitle() != null ? reviewRequest.getReviewTitle() : review.getReviewTitle())
+                .reviewContent(reviewRequest.getReviewContent() != null ? reviewRequest.getReviewContent() : review.getReviewContent())
+                .reviewRating(reviewRequest.getReviewRating() != null ? reviewRequest.getReviewRating() : review.getReviewRating())
+                .reviewImage(reviewRequest.getReviewImage() != null ? reviewRequest.getReviewImage() : review.getReviewImage())
+                .updatedAt(LocalDateTime.now()) // 수정 시간 갱신
+                .status(review.getStatus())
+                .user(review.getUser())
+                .movie(review.getMovie())
+                .cast(review.getCast())
+                .build();
+
+        reviewRepository.save(updatedReview); // ✅ 변경된 값만 저장
+    }
 
 
 }

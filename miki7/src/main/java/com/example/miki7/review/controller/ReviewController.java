@@ -15,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -39,10 +41,13 @@ public class ReviewController {
     @GetMapping("/new/{movieId}")
     public String showReviewForm(@PathVariable Long movieId, Model model, HttpSession session) {
         UserEntity user = (UserEntity) session.getAttribute("loginUser");
+//        Long userId = user.getId();
+        Long userId = 1L;
         MovieEntity movie = movieService.findMovieById(movieId); // ✅ 변경: MovieService에서 영화 정보 가져오기
         List<CastEntity> castList = reviewService.getCastsByMovieId(movieId); // 해당영화 배역 목록
         List<ReviewDto> reviews = reviewService.getReviewsByMovieId(movieId); // ✅ 해당 영화의 리뷰 목록 추가
 
+        model.addAttribute("loginUserId", userId); // 모델에 userId 추가
         model.addAttribute("movie", movie); // ✅ 영화 정보 추가
         model.addAttribute("movieId", movieId); // 선택한 영화
         model.addAttribute("castList", castList); // 영화에 출연한 배우/배역 목록 선택을 위해
@@ -50,6 +55,8 @@ public class ReviewController {
         model.addAttribute("reviews", reviews); // ✅ 영화 리뷰 목록 추가
 
 //        log.info("castList: {}", castList); // ✅ castList 값 확인
+//아이디 값 확인
+        log.info("userId: {}", userId);
 
         return "review-form"; // 타임리프 템플릿 (@테스트 완료 바꾸기)
     }
@@ -70,7 +77,49 @@ public class ReviewController {
     }
 
 
-    //u 회원은 영화에 대한 리뷰를 수정할 수 있습니다.
+//    //u 회원은 영화에 대한 리뷰를 수정할 수 있습니다.
+//    // ✅ 리뷰 수정 요청 처리
+//    @PostMapping("/edit/{reviewId}")
+//    public String showEditReview(@ModelAttribute ReviewDto reviewDto, HttpSession session) {
+//        UserEntity user = (UserEntity) session.getAttribute("loginUser");
+////        log.info("user: {}", user);
+//
+//        Long userId = user.getId(); // 페이지 연결하고 풀기
+//        // 로그인하고 페이지 들어갔는데 userId가 없다고 뜸
+////        Long userId = 1L; // 테스트용
+//
+//        reviewService.updateReview(reviewDto, userId );
+//
+////        reviewService.updateReview(reviewDto, userId);
+//        return "redirect:/reviews/new/" + reviewDto.getMovieId(); // 영화 상세페이지로 이동
+//    }
+
+@ResponseBody
+@PostMapping("/update")
+public Map<String, Object> updateReview(@RequestBody ReviewRequest reviewRequest, HttpSession session) {
+//    UserEntity user = (UserEntity) session.getAttribute("loginUser");
+    Long UserId = 1L;
+//    Long UserId = user.getId();
+
+    Map<String, Object> response = new HashMap<>();
+
+    try {
+        reviewService.updateReview(reviewRequest,UserId);
+        response.put("success", true);
+    } catch (Exception e) {
+        response.put("success", false);
+        response.put("error", e.getMessage());
+    }
+
+    return response;
+}
+
+
+
+
+
+
+
     //d 회원은 영화에 대한 리뷰를 삭제할 수 있습니다. (진짜 삭제는 아니고 delete_at 에 날짜만 하면 됨)
 
 }
