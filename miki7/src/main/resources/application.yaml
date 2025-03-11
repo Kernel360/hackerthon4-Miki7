@@ -1,17 +1,19 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   application:
     name: miki7
   datasource:
     url: ${TEST_DB_URL}
     username: ${TEST_DB_USERNAME}
-    password: ${TEST_DB_PASSWORD}
+    password: ${TEST_DB_PW}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
 #      처음 실행할때는 create로 설정해주세요
 #      그 다음 실행부터는 update로 바꿔주세요
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
