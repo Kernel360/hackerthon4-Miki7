@@ -1,5 +1,6 @@
-package com.example.miki7.movie.db;
+package com.example.miki7.actor.db;
 
+import com.example.miki7.movie.db.MovieEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

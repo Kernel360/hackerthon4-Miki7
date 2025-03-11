@@ -1,4 +1,4 @@
-package com.example.miki7.movie.db;
+package com.example.miki7.actor.db;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
