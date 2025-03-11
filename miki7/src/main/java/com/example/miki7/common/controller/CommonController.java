@@ -1,5 +1,6 @@
 package com.example.miki7.common.controller;
 
+import com.example.miki7.user.model.UserRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +19,10 @@ public class CommonController {
         return "login";
     }
 
-    @GetMapping(value="/register")
-    public String register(Model model) {
-        return "register";
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("userRequest", new UserRequest());
+        return "register"; // Thymeleaf 템플릿 이름
     }
 
     @GetMapping("/author")
