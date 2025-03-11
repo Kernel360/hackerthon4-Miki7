@@ -5,9 +5,11 @@
         <a class="navbar-brand font-weight-bolder mr-3" th:href="@{/}">
             <img th:src="@{/img/logo.png}" alt="Logo">
         </a>
+        <p class="font-weight-bold title">별책부록</p>
         <button class="navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarsDefault">
             <ul class="navbar-nav mr-auto align-items-center">
                 <form th:action="@{/search}" method="post" class="bd-search hidden-sm-down d-flex align-items-center">
