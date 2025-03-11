@@ -1,5 +1,6 @@
 package com.example.miki7.review.db;
 
+import com.example.miki7.actor.db.CastEntity;
 import com.example.miki7.movie.db.MovieEntity;
 import com.example.miki7.user.db.UserEntity;
 import jakarta.persistence.*;
@@ -27,7 +28,6 @@ public class ReviewEntity {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
-    private String reviewId;
     private String status;
 
     @ManyToOne
@@ -37,4 +37,8 @@ public class ReviewEntity {
     @ManyToOne
     @JoinColumn(name = "movie_id", nullable = false)
     private MovieEntity movie;
+
+    @ManyToOne
+    @JoinColumn(name = "cast_id") // 배역에 대한 리뷰를 저장하는 컬럼
+    private CastEntity cast;
 }

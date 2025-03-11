@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "likes")
+@Table(name = "review_like")
 @Getter
 @Setter( AccessLevel.PROTECTED)
 @NoArgsConstructor
