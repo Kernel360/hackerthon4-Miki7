@@ -1,6 +1,9 @@
 package com.example.miki7.review.controller;
 
+import com.example.miki7.movie.db.MovieEntity;
+import com.example.miki7.movie.service.MovieService;
 import com.example.miki7.review.db.ReviewEntity;
+import com.example.miki7.review.model.ReviewDto;
 import com.example.miki7.review.model.ReviewRequest;
 import com.example.miki7.review.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,15 +33,21 @@ public class ReviewController {
   */
 
     private final ReviewService reviewService;
+    private final MovieService movieService;
 
     // 리뷰 작성 폼
     @GetMapping("/new/{movieId}")
     public String showReviewForm(@PathVariable Long movieId, Model model, HttpSession session) {
         UserEntity user = (UserEntity) session.getAttribute("loginUser");
+        MovieEntity movie = movieService.findMovieById(movieId); // ✅ 변경: MovieService에서 영화 정보 가져오기
         List<CastEntity> castList = reviewService.getCastsByMovieId(movieId); // 해당영화 배역 목록
+        List<ReviewDto> reviews = reviewService.getReviewsByMovieId(movieId); // ✅ 해당 영화의 리뷰 목록 추가
+
+        model.addAttribute("movie", movie); // ✅ 영화 정보 추가
         model.addAttribute("movieId", movieId); // 선택한 영화
         model.addAttribute("castList", castList); // 영화에 출연한 배우/배역 목록 선택을 위해
         model.addAttribute("review", new ReviewEntity());
+        model.addAttribute("reviews", reviews); // ✅ 영화 리뷰 목록 추가
 
 //        log.info("castList: {}", castList); // ✅ castList 값 확인
 
@@ -51,7 +60,8 @@ public class ReviewController {
         UserEntity user = (UserEntity) session.getAttribute("loginUser");
 
 //        Long userId = user.getId(); // 페이지 연결하고 풀기
-        Long userId = 1L; // 페이지 연결하고 풀기
+        // 로그인하고 페이지 들어갔는데 userId가 없다고 뜸
+        Long userId = 1L; // 테스트용
 
 
         reviewService.saveReview(reviewRequest,userId);
@@ -60,13 +70,6 @@ public class ReviewController {
     }
 
 
-
-
-
-
-
-
-    //r 회원은 영화에 대한 리뷰를 조회할 수 있습니다.
     //u 회원은 영화에 대한 리뷰를 수정할 수 있습니다.
     //d 회원은 영화에 대한 리뷰를 삭제할 수 있습니다. (진짜 삭제는 아니고 delete_at 에 날짜만 하면 됨)
 

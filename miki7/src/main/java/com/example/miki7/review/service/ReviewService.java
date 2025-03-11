@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -67,6 +68,27 @@ public class ReviewService {
     }
 
     public List<CastEntity> getCastsByMovieId(Long movieId) {
-        return castRepository.findByMovieId(movieId);
+        return castRepository.findByMovieWithActors(movieId);
     }
+
+
+
+
+
+
+
+
+
+
+    // 특정 영화의 리뷰 목록 조회
+    public List<ReviewDto> getReviewsByMovieId(Long movieId) {
+        List<ReviewEntity> reviews = reviewRepository.findByMovieId(movieId);
+        return reviews.stream()
+                .map(ReviewConverter::toDto) // ✅ Entity → DTO 변환
+                .collect(Collectors.toList());
+    }
+
+
+
+
 }

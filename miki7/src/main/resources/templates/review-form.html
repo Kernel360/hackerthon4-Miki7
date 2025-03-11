@@ -1,3 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>영화상세보기</title>
+</head>
+<body>
+
+<!-- ✅ 영화 상세 정보 추가 -->
+<div>
+    <h3 th:text="${movie.movieName}"></h3> <!-- 영화 제목 -->
+    <p><strong>영어 제목:</strong> <span th:text="${movie.movieEnName}"></span></p>
+    <p><strong>장르:</strong> <span th:text="${movie.genre}"></span></p>
+    <p><strong>상영 시간:</strong> <span th:text="${movie.runTime}"></span> 분</p>
+    <p><strong>줄거리:</strong> <span th:text="${movie.plot}"></span></p>
+    <p><strong>평점:</strong> <span th:text="${movie.score}"></span>/5</p>
+    <img th:src="${movie.poster}" alt="영화 포스터" width="200px"/>
+</div>
+<!-- ✅ 출연진 목록 -->
+<h3>출연진</h3>
+<ul>
+    <li th:each="cast : ${castList}">
+        <span th:text="${cast.castName}"></span> 역할 -
+        <span th:text="${cast.actor.actorName}"></span>
+    </li>
+</ul>
+
+<h2>리뷰 작성</h2>
+
 <form th:action="@{/reviews/save}" method="post" th:object="${review}">
     <input type="hidden" name="movieId" th:value="${movieId}" />
 
@@ -10,16 +38,51 @@
     <label>평점:</label>
     <input type="number" th:field="*{reviewRating}" min="1" max="5" required /><br>
 
-<!--    원래이미지 업로드임 시간나면 연결하기-->
+    <!-- ✅ 이미지 업로드는 추후 연결 예정 -->
     <label>이미지 URL:</label>
     <input type="text" th:field="*{reviewImage}" /><br>
 
-    <!-- ✅ 배역 선택 -->
+    <!-- ✅ 배역 선택 (선택사항) -->
     <label>배역 선택 (선택사항):</label>
     <select name="castId">
-        <option value="">영화리뷰</option> <!-- 영화에 대한 리뷰일 경우 -->
+        <option value="">영화 리뷰</option> <!-- 영화 전체에 대한 리뷰일 경우 -->
         <option th:each="cast : ${castList}" th:value="${cast.id}" th:text="${cast.castName}"></option>
     </select><br>
 
     <button type="submit">리뷰 작성</button>
 </form>
+
+<!-- ✅ 기존 리뷰 목록 추가 -->
+<h3>기존 리뷰 목록</h3>
+
+<!-- 리뷰가 없는 경우 메시지 표시 -->
+<p th:if="${#lists.isEmpty(reviews)}">등록된 리뷰가 없습니다.</p>
+
+<table border="1" th:if="${not #lists.isEmpty(reviews)}">
+    <tr>
+        <th>구분</th> <!-- ✅ 추가 -->
+        <th>제목</th>
+        <th>내용</th>
+        <th>평점</th>
+        <th>작성일</th>
+    </tr>
+    <tr th:each="review : ${reviews}">
+        <td>
+            <span th:if="${review.castId == null}">영화 전체 리뷰</span>
+            <span th:if="${review.castId != null}">
+                <span th:each="cast : ${castList}" th:if="${cast.id == review.castId}">
+                    <span th:text="${cast.castName}"></span> (<span th:text="${cast.actor.actorName}"></span>) 리뷰
+                </span>
+            </span>
+        </td>
+        <td th:text="${review.reviewTitle}"></td>
+        <td th:text="${review.reviewContent}"></td>
+        <td th:text="${review.reviewRating}"></td>
+        <td th:text="${#temporals.format(review.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+    </tr>
+</table>
+
+
+<a href="/movies">영화 목록으로 돌아가기</a>
+</body>
+</html>
