@@ -1,0 +1,25 @@
+<form th:action="@{/reviews/save}" method="post" th:object="${review}">
+    <input type="hidden" name="movieId" th:value="${movieId}" />
+
+    <label>제목:</label>
+    <input type="text" th:field="*{reviewTitle}" required /><br>
+
+    <label>내용:</label>
+    <textarea th:field="*{reviewContent}" required></textarea><br>
+
+    <label>평점:</label>
+    <input type="number" th:field="*{reviewRating}" min="1" max="5" required /><br>
+
+<!--    원래이미지 업로드임 시간나면 연결하기-->
+    <label>이미지 URL:</label>
+    <input type="text" th:field="*{reviewImage}" /><br>
+
+    <!-- ✅ 배역 선택 -->
+    <label>배역 선택 (선택사항):</label>
+    <select name="castId">
+        <option value="">영화리뷰</option> <!-- 영화에 대한 리뷰일 경우 -->
+        <option th:each="cast : ${castList}" th:value="${cast.id}" th:text="${cast.castName}"></option>
+    </select><br>
+
+    <button type="submit">리뷰 작성</button>
+</form>

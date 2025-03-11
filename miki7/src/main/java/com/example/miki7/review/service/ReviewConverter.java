@@ -1,33 +1,31 @@
 package com.example.miki7.review.service;
 
+import com.example.miki7.actor.db.CastEntity;
+import com.example.miki7.movie.db.MovieEntity;
 import com.example.miki7.review.db.ReviewEntity;
 import com.example.miki7.review.model.ReviewDto;
-import com.example.miki7.review.model.ReviewRequest;
+import com.example.miki7.user.db.UserEntity;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @Component
 public class ReviewConverter {
 
-    public ReviewDto toDto(ReviewEntity entity) {
-        return ReviewDto.builder()
-                .id(entity.getId())
-                .reviewTitle(entity.getReviewTitle())
-                .reviewContent(entity.getReviewContent())
-                .reviewRating(entity.getReviewRating())
-                .reviewImage(entity.getReviewImage())
-                .createdAt(entity.getCreatedAt())
-                .status(entity.getStatus())
-                .userId(entity.getUser().getId())
-                .movieId(entity.getMovie().getId())
-                .build();
-    }
 
-    public ReviewEntity toEntity(ReviewRequest request) {
+    // DTO → Entity 변환
+    public ReviewEntity toEntity(ReviewDto dto, UserEntity user, MovieEntity movie, CastEntity cast) {
         return ReviewEntity.builder()
-                .reviewTitle(request.getReviewTitle())
-                .reviewContent(request.getReviewContent())
-                .reviewRating(request.getReviewRating())
-                .reviewImage(request.getReviewImage())
+                .reviewTitle(dto.getReviewTitle())
+                .reviewContent(dto.getReviewContent())
+                .reviewRating(dto.getReviewRating())
+                .reviewImage(dto.getReviewImage())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .status("ACTIVE")
+                .user(user)
+                .movie(movie)
+                .cast(cast)
                 .build();
     }
 }
