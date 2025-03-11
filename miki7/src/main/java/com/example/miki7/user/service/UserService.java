@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -26,16 +28,17 @@ public class UserService {
         roles.add("USER");
 
         var entity = UserEntity.builder()
+                .username(userRequest.getUsername())
                 .password(passwordEncoder.encode(userRequest.getPassword()))
                 .nickname(userRequest.getNickname())
-                .birthDate(userRequest.getBirthDate())
+                .birthDate(LocalDateTime.now())
                 .gender(userRequest.getGender())
                 .profileImage(userRequest.getProfileImage())
-                .createdAt(userRequest.getCreatedAt())
-                .updatedAt(userRequest.getUpdatedAt())
-                .deletedAt(userRequest.getDeletedAt())
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .deletedAt(null)
                 .roles(roles)
-                .status(userRequest.getStatus())
+                .status("REGISTERED")
                 .build();
 
         var saveEntity = userRepository.save(entity);
@@ -43,9 +46,24 @@ public class UserService {
         return userConverter.toDto(saveEntity);
     }
 
-    public UserDto findOne(Long id) {
-        var saveEntity = userRepository.findById(id);
+    public UserDto findById(Long id) {
+        var entity = userRepository.findById(id);
 
-        return userConverter.toDto(saveEntity.get());
+        return userConverter.toDto(entity.get());
+    }
+
+    public UserDto findByNickname(String nickName){
+        UserEntity entity = (UserEntity) userRepository.findByNickname(nickName);
+
+        return userConverter.toDto(entity);
+    }
+
+    public List<UserDto> findAll(){
+
+        return userRepository.findAll().stream().map(userConverter::toDto).toList();
+    }
+
+    public void delete(Long id){
+        userRepository.deleteById(id);
     }
 }
