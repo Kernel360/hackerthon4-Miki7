@@ -69,12 +69,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="card-columns">
-                    <div class="card card-pin">
-                        <img class="card-img" th:src="@{/img/card1.jpg}" alt="Card image">
+                    <div class="card card-pin" th:each="movie : ${movies}">
+                        <img class="card-img" th:src="${movie.poster}" alt="Card image">
                         <div class="overlay">
-                            <h2 class="card-title title">Cool Title</h2>
+                            <h2 class="card-title title" th:text="${movie.movieName}">Cool Title</h2>
                             <div class="more">
-                                <a th:href="@{/post}">
+                                <a th:href="@{/post/{id}(id=${movie.id})}">
                                     <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> More
                                 </a>
                             </div>
