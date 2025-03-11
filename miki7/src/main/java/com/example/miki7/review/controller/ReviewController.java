@@ -5,7 +5,7 @@ import com.example.miki7.review.model.ReviewRequest;
 import com.example.miki7.review.service.ReviewService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
-import com.example.miki7.actor.db.CastEntity;
+import com.example.miki7.cast.db.CastEntity;
 import com.example.miki7.user.db.UserEntity;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
