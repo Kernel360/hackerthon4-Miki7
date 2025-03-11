@@ -74,4 +74,10 @@ public class MovieService {
         return MovieDto.toEntity(movieEntity);
     }
 
+    //영화 제목으로 조회
+    public List<MovieEntity> findMoviesByKeyword(String keyword){
+
+        return movieRepository.findByMovieNameOrMovieEnNameContaining(keyword);
+    }
+
 }

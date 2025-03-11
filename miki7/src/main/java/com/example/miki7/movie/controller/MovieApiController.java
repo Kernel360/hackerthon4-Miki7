@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/movie")
 @RequiredArgsConstructor
-public class MovieController {
+public class MovieApiController {
 
     private final MovieService movieService;
 

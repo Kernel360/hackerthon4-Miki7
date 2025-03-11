@@ -42,4 +42,6 @@ public class MovieEntity {
 
     @Column(name = "status")
     private String status;
+
+
 }
