@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: miki7
+  datasource:
+    url: jdbc:mysql://localhost:3306/study?serverTimezone=UTC&useSSL=false
+    username: root
+    password: root1234!!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  sql:
+    init:
+      mode: always
+
+  web:
+    resources:
+      static-locations: classpath:/static/
+
+apiKeys:
+  kobis:
+    key: "6369a7022eed43c6c3f63ee42558068a"
+
