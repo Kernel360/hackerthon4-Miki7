@@ -1,5 +1,6 @@
 package com.example.miki7.movie.db;
 
+import com.example.miki7.cast.db.CastEntity;
 import com.example.miki7.review.db.ReviewEntity;
 import jakarta.persistence.*;
 import lombok.*;

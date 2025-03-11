@@ -1,0 +1,15 @@
+<div th:fragment="detailsearch">
+    <form th:action="@{/search/detail}" method="post" class="bd-search hidden-sm-down d-flex align-items-center">
+        <input type="text" name="movieName" class="form-control bg-graylight font-weight-bold search-input"
+               placeholder="영화 제목을 입력하세요" autocomplete="off">
+        <input type="text" name="actorName" class="form-control bg-graylight font-weight-bold search-input"
+               placeholder="배우 이름을 입력하세요" autocomplete="off">
+        <input type="text" name="castName" class="form-control bg-graylight font-weight-bold search-input"
+               placeholder="배역 이름을 입력하세요" autocomplete="off">
+        <input type="text" name="genre" class="form-control bg-graylight font-weight-bold search-input"
+               placeholder="장르를 입력하세요 (예: 액션)" autocomplete="off">
+        <input type="text" name="year" class="form-control bg-graylight font-weight-bold search-input"
+               placeholder="개봉년도 (예: 2024)" autocomplete="off">
+        <button type="submit" class="btn btn-primary search-button">검색</button>
+    </form>
+</div>

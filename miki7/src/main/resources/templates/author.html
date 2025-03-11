@@ -1,28 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title th:text="${title}">Author - Pintereso Bootstrap Template</title>
-
-	<script th:inline="javascript">
-		// JavaScript 코드는 th:inline="javascript" 속성을 사용하여 동적 데이터를 처리할 수 있습니다.
-	</script>
-
-	<link rel="stylesheet" th:href="@{/css/app.css}">
-	<link rel="stylesheet" th:href="@{/css/theme.css}">
-
-	<script type="text/javascript">
-		(function() {
-			var css = document.createElement('link');
-			css.href = 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-			css.rel = 'stylesheet';
-			css.type = 'text/css';
-			document.getElementsByTagName('head')[0].appendChild(css);
-		})();
-	</script>
-</head>
+<header>
+	<div th:insert="~{/fragments/mainheader::mainheader}"></div>
+</header>
 
 <body>
 <!-- Topbar 포함 -->
