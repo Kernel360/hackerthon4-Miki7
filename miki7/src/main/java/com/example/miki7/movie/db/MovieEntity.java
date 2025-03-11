@@ -19,21 +19,33 @@ public class MovieEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "movie_name")
     private String movieName;
+
+    @Column(name = "movie_en_name")
     private String movieEnName;
+
+    @Column(name = "year")
     private String year;
+
+    @Column(name = "genre")
     private String genre;
+
+    @Column(name = "run_time")
     private String runTime;
 
     @Lob
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "plot", columnDefinition = "TEXT")
     private String plot;
 
     @Lob
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "poster", columnDefinition = "TEXT")
     private String poster;
 
+    @Column(name = "score")
     private String score;
+
+    @Column(name = "status")
     private String status;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
