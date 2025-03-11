@@ -23,7 +23,7 @@ public class UserEntity {
 
 
     @Column(unique = true)
-    private String userName;
+    private String username;
     private String password;
     private String nickname;
     private LocalDateTime birthDate;
