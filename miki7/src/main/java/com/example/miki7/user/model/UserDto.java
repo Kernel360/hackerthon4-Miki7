@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,5 +25,8 @@ public class UserDto {
     private LocalDateTime deletedAt;
     private Set<String> roles;
     private String status;
+
+
+
 
 }

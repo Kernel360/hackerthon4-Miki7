@@ -14,14 +14,11 @@
 
 	<!-- Jumbotron Section -->
 	<div class="jumbotron border-round-0 min-50vh"
-		 style="
-                 background-image:url('https://images.unsplash.com/photo.jpg');
-                 background-size: cover;">
+		 th:style="'background-image: url(' + ${movie.poster} + '); background-size: cover;'">
 	</div>
-
 	<!-- Author Section -->
 	<div class="container mb-4">
-		<img th:src="${movie.poster}" class="mt-neg100 mb-4 rounded-circle" width="128" alt="poster">
+<!--		<img th:src="${movie.poster}" class="mt-neg100 mb-4 rounded-circle" width="128" alt="poster">-->
 		<h1 th:text ="${movie.movieName}" class="font-weight-bold title">Sal</h1>
 		<p th:text = "${movie.plot}">I love Art, Web Design, Photography, Design, Illustration</p>
 	</div>
