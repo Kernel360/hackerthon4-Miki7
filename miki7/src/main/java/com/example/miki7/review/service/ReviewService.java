@@ -74,6 +74,10 @@ public class ReviewService {
     }
 
 
+    public List<ReviewEntity> findAllByUserId(Long id) {
+        return reviewRepository.findAllByUser_Id(id);
+    }
+
     // 특정 영화의 리뷰 목록 조회
     public List<ReviewDto> getReviewsByMovieId(Long movieId) {
         List<ReviewEntity> reviews = reviewRepository.findByMovieId(movieId);
@@ -127,6 +131,4 @@ public class ReviewService {
 
         reviewRepository.save(updatedReview); // ✅ 변경된 값만 저장
     }
-
-
 }
