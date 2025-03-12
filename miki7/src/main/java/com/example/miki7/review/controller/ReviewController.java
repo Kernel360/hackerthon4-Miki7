@@ -64,8 +64,9 @@ public class ReviewController {
         for(ReviewDto review:reviews){
             totalScore+=review.getReviewRating();
         }
-        String averageScore = String.format("%.2f", Double.parseDouble(String.valueOf(totalScore)) / reviews.size());
-
+        String averageScore = !reviews.isEmpty()
+                ? String.format("%.2f", (double) totalScore / reviews.size())
+                : "0.00";
         model.addAttribute("loginUserId",userId); // 모델에 userId 추가
         model.addAttribute("movie", movie); // ✅ 영화 정보 추가
         model.addAttribute("movieId", movieId); // 선택한 영화
@@ -82,7 +83,7 @@ public class ReviewController {
         log.info("userId: {}", userId);
 
 
-        return "review-form"; // 타임리프 템플릿 (@테스트 완료 바꾸기)
+        return "post";
     }
 
     // 리뷰 저장 요청 처리
