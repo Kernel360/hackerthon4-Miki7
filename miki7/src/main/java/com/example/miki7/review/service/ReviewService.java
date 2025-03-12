@@ -34,7 +34,7 @@ public class ReviewService {
 
     // 리뷰 저장
     public void saveReview(ReviewRequest reviewRequest, Long userId) {
-         //유저, 영화, 배역 찾기
+        //유저, 영화, 배역 찾기
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 사용자입니다."));
 
@@ -78,9 +78,10 @@ public class ReviewService {
         return reviewRepository.findAllByUser_Id(id);
     }
 
-    // 특정 영화의 리뷰 목록 조회
+    // 특정 영화의 리뷰 목록 조회 ( 삭제 제외)
     public List<ReviewDto> getReviewsByMovieId(Long movieId) {
-        List<ReviewEntity> reviews = reviewRepository.findByMovieId(movieId);
+//        List<ReviewEntity> reviews = reviewRepository.findByMovieId(movieId);
+        List<ReviewEntity> reviews = reviewRepository.findByMovieIdAndDeletedAtIsNull(movieId);
         return reviews.stream()
                 .map(ReviewConverter::toDto) // ✅ Entity → DTO 변환
                 .collect(Collectors.toList());
@@ -122,6 +123,7 @@ public class ReviewService {
                 .reviewContent(reviewRequest.getReviewContent() != null ? reviewRequest.getReviewContent() : review.getReviewContent())
                 .reviewRating(reviewRequest.getReviewRating() != null ? reviewRequest.getReviewRating() : review.getReviewRating())
                 .reviewImage(reviewRequest.getReviewImage() != null ? reviewRequest.getReviewImage() : review.getReviewImage())
+                .createdAt(review.getCreatedAt())
                 .updatedAt(LocalDateTime.now()) // 수정 시간 갱신
                 .status(review.getStatus())
                 .user(review.getUser())
@@ -131,4 +133,37 @@ public class ReviewService {
 
         reviewRepository.save(updatedReview); // ✅ 변경된 값만 저장
     }
+
+    @Transactional
+    public boolean deleteReview(Long reviewId, Long userId) {
+        // ✅ 리뷰 조회 (해당 리뷰가 존재하는지 확인)
+        ReviewEntity review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 리뷰입니다."));
+
+//        // ✅ 작성자 확인 (자신이 작성한 리뷰만 삭제 가능)
+//        if (!review.getUser().getId().equals(userId)) {
+//            return false; // 삭제 권한 없음
+//        }
+
+        // ✅ 기존 값을 유지하면서 deletedAt만 변경
+        ReviewEntity deletedReview = ReviewEntity.builder()
+                .id(review.getId()) // 기존 ID 유지
+                .reviewTitle(review.getReviewTitle() != null ? review.getReviewTitle() : review.getReviewTitle())
+                .reviewContent(review.getReviewContent() != null ? review.getReviewContent() : review.getReviewContent())
+                .reviewRating(review.getReviewRating() != null ? review.getReviewRating() : review.getReviewRating())
+                .reviewImage(review.getReviewImage() != null ? review.getReviewImage() : review.getReviewImage())
+                .createdAt(review.getCreatedAt())
+                .updatedAt(LocalDateTime.now()) // 수정 시간 갱신
+                .status(review.getStatus())
+                .user(review.getUser())
+                .movie(review.getMovie())
+                .cast(review.getCast())
+                .deletedAt(LocalDateTime.now()) // ✅ 삭제 시간 설정
+                .status("DELETED")
+                .build();
+
+        reviewRepository.save(deletedReview); // ✅ 변경된 값 저장
+        return true;
+    }
 }
+

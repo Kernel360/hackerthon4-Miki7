@@ -25,6 +25,7 @@
 </ul>
 
 <h2>리뷰 작성</h2>
+<!--<p>로그인한 사용자 ID: <span th:text="${loginUserId}"></span></p>-->
 
 <form th:action="@{/reviews/save}" method="post" th:object="${review}">
     <input type="hidden" name="movieId" th:value="${movieId}" />
@@ -118,9 +119,6 @@
 <!--            </span>-->
 <!--        </td>-->
 
-
-
-
         <td>
             <span th:id="'title-text-' + ${review.id}" th:text="${review.reviewTitle}"></span>
             <input type="text" th:id="'title-input-' + ${review.id}" th:value="${review.reviewTitle}" style="display:none;" />
@@ -155,10 +153,15 @@
 
 
         <!-- 삭제 버튼 -->
-        <form th:action="@{/reviews/delete}" method="post" style="display:inline;">
-            <input type="hidden" name="reviewId" th:value="${review.id}" />
-            <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
-        </form>
+<!--        <form th:action="@{/reviews/delete}" method="post" style="display:inline;">-->
+<!--            <input type="hidden" name="reviewId" th:value="${review.id}" />-->
+<!--            <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>-->
+<!--        </form>-->
+        <!-- 삭제 버튼 -->
+<button th:id="'delete-btn-' + ${review.id}"
+        th:attr="onclick='deleteReview(' + ${review.id} + ')'"
+        style="display:inline;">삭제</button>
+
     </span>
         </td>
 
@@ -240,4 +243,33 @@
             });
     }
 
+    function deleteReview(reviewId) {
+        if (!confirm("정말 삭제하시겠습니까?")) {
+            return; // 사용자가 취소하면 중단
+        }
+
+        console.log("삭제 요청 - reviewId:", reviewId); // 디버깅 로그
+
+        fetch('/reviews/delete', {
+            method: 'POST', // ❗ DELETE 대신 PATCH 사용
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reviewId: reviewId }) // 서버로 reviewId 전달
+        })
+            .then(response => response.json()) // JSON 응답 처리
+            .then(data => {
+                if (data.success) {
+                    alert('리뷰가 삭제되었습니다.');
+                    location.reload(); // 페이지 새로고침하여 UI 업데이트
+                } else {
+                    alert('삭제 실패: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('삭제 중 오류가 발생했습니다.');
+            });
+    }
+
+
 </script>
+
