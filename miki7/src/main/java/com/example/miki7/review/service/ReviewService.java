@@ -147,6 +147,17 @@ public class ReviewService {
 
         // ✅ 기존 값을 유지하면서 deletedAt만 변경
         ReviewEntity deletedReview = ReviewEntity.builder()
+                .id(review.getId()) // 기존 ID 유지
+                .reviewTitle(review.getReviewTitle() != null ? review.getReviewTitle() : review.getReviewTitle())
+                .reviewContent(review.getReviewContent() != null ? review.getReviewContent() : review.getReviewContent())
+                .reviewRating(review.getReviewRating() != null ? review.getReviewRating() : review.getReviewRating())
+                .reviewImage(review.getReviewImage() != null ? review.getReviewImage() : review.getReviewImage())
+                .createdAt(review.getCreatedAt())
+                .updatedAt(LocalDateTime.now()) // 수정 시간 갱신
+                .status(review.getStatus())
+                .user(review.getUser())
+                .movie(review.getMovie())
+                .cast(review.getCast())
                 .deletedAt(LocalDateTime.now()) // ✅ 삭제 시간 설정
                 .status("DELETED")
                 .build();
