@@ -60,7 +60,11 @@ public class ReviewController {
         MovieEntity movie = movieService.findMovieById(movieId); // ✅ 변경: MovieService에서 영화 정보 가져오기
         List<CastEntity> castList = reviewService.getCastsByMovieId(movieId); // 해당영화 배역 목록
         List<ReviewDto> reviews = reviewService.getReviewsByMovieId(movieId); // ✅ 해당 영화의 리뷰 목록 추가
-        String averageScore = String.format("%.2f", Double.parseDouble(movie.getScore()) / reviews.size());
+        int totalScore = 0;
+        for(ReviewDto review:reviews){
+            totalScore+=review.getReviewRating();
+        }
+        String averageScore = String.format("%.2f", Double.parseDouble(String.valueOf(totalScore)) / reviews.size());
 
         model.addAttribute("loginUserId",userId); // 모델에 userId 추가
         model.addAttribute("movie", movie); // ✅ 영화 정보 추가
@@ -92,7 +96,6 @@ public class ReviewController {
 
 
         reviewService.saveReview(reviewRequest,userId);
-        movieService.updateMovieScore(reviewRequest.getMovieId(),reviewRequest.getReviewRating());
 
         return "redirect:/reviews/new/" + reviewRequest.getMovieId(); // @영화 상세페이지 경로로 변경
     }
