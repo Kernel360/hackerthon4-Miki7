@@ -14,7 +14,7 @@ spring:
     hibernate:
 #      처음 실행할때는 create로 설정해주세요
 #      그 다음 실행부터는 update로 바꿔주세요
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
