@@ -25,6 +25,7 @@
 </ul>
 
 <h2>리뷰 작성</h2>
+<p>로그인한 사용자 ID: <span th:text="${loginUserId}"></span></p>
 
 <form th:action="@{/reviews/save}" method="post" th:object="${review}">
     <input type="hidden" name="movieId" th:value="${movieId}" />
