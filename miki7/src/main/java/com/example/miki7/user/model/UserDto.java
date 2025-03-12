@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,6 +14,7 @@ import java.util.Set;
 public class UserDto {
 
     private Long id;
+    private String username;
     private String password;
     private String nickname;
     private LocalDateTime birthDate;
@@ -23,5 +25,8 @@ public class UserDto {
     private LocalDateTime deletedAt;
     private Set<String> roles;
     private String status;
+
+
+
 
 }

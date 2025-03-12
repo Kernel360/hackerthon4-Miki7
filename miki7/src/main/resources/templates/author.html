@@ -1,131 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title th:text="${title}">Author - Pintereso Bootstrap Template</title>
-
-	<script th:inline="javascript">
-		// JavaScript 코드는 th:inline="javascript" 속성을 사용하여 동적 데이터를 처리할 수 있습니다.
-	</script>
-
-	<link rel="stylesheet" th:href="@{/css/app.css}">
-	<link rel="stylesheet" th:href="@{/css/theme.css}">
-
-	<script type="text/javascript">
-		(function() {
-			var css = document.createElement('link');
-			css.href = 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-			css.rel = 'stylesheet';
-			css.type = 'text/css';
-			document.getElementsByTagName('head')[0].appendChild(css);
-		})();
-	</script>
-</head>
+<header>
+    <div th:insert="~{/fragments/mainheader::mainheader}"></div>
+</header>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
-	<a class="navbar-brand font-weight-bolder mr-3" th:href="@{/}">
-		<img th:src="@{/img/logo.png}">
-	</a>
-	<button class="navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsDefault" aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse" id="navbarsDefault">
-		<ul class="navbar-nav mr-auto align-items-center">
-			<form class="bd-search hidden-sm-down">
-				<input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="search-input" placeholder="Search..." autocomplete="off">
-				<div class="dropdown-menu bd-search-results" id="search-results">
-				</div>
-			</form>
-		</ul>
-		<ul class="navbar-nav ml-auto align-items-center">
-			<li class="nav-item">
-				<a class="nav-link active" th:href="@{/}">Home</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" th:href="@{/post}">Post</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" th:href="@{/author}">
-					<img class="rounded-circle mr-2" th:src="@{/img/av.png}" width="30">
-					<span class="align-middle">Author</span>
-				</a>
-			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<svg style="margin-top:10px;" class="_3DJPT" version="1.1" viewbox="0 0 32 32" width="21" height="21" aria-hidden="false" data-reactid="71">
-						<path d="M7 15.5c0 1.9-1.6 3.5-3.5 3.5s-3.5-1.6-3.5-3.5 1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5zm21.5-3.5c-1.9 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5-1.6-3.5-3.5-3.5zm-12.5 0c-1.9 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5-1.6-3.5-3.5-3.5z" data-reactid="22"></path>
-					</svg>
-				</a>
-				<div class="dropdown-menu dropdown-menu-right shadow-lg" aria-labelledby="dropdown02">
-					<h4 class="dropdown-header display-4">Download Pintereso<br/> HTML Bootstrap Template</h4>
-					<div class="dropdown-divider">
-					</div>
-					<span class="dropdown-item">
-                            <a href="https://github.com/wowthemesnet/template-pintereso-bootstrap-html/archive/master.zip" class="btn btn-primary d-block">
-                                <i class="fa fa-download"></i> Download
-                            </a>
-                        </span>
-				</div>
-			</li>
-		</ul>
-	</div>
-</nav>
+<!-- Topbar 포함 -->
+<div th:insert="~{/fragments/topbar :: topbar}"></div>
 
 <main role="main">
-	<div class="jumbotron border-round-0 min-50vh" th:style="'background-image:url(' + @{/background-image} + ');'">
-	</div>
-	<div class="container mb-4">
-		<img th:src="@{/img/av.png}" class="mt-neg100 mb-4 rounded-circle" width="128">
-		<h1 class="font-weight-bold title" th:text="${authorName}">Sal</h1>
-		<p th:text="${authorDescription}">
-			I love Art, Web Design, Photography, Design, Illustration
-		</p>
-	</div>
-	<div class="container-fluid mb-5">
-		<div class="row">
-			<div class="card-columns">
-				<div th:each="post : ${posts}" class="card card-pin">
-					<img class="card-img" th:src="@{/post-image}">
-					<div class="overlay">
-						<h2 class="card-title title" th:text="${post.title}">Some Title</h2>
-						<div class="more">
-							<a th:href="@{/post/{id}(id=${post.id})}">
-								<i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> More
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="jumbotron border-round-0 min-50vh" th:style="'background-image:url(' + @{/background-image} + ');'">
+    </div>
+    <div class="container mb-4">
+        <img th:src="${user != null ? user.getProfileImage() : 'static/img/av.png'}" alt="Profile Image"/>
+        <h1 class="font-weight-bold title" th:text="${user.getNickname()}">Sal</h1>
+        <p th:text="${user.getUsername()}">
+            I love Art, Web Design, Photography, Design, Illustration
+        </p>
+    </div>
+    <div class="container-fluid mb-5">
+        <div class="row">
+            <div class="card-columns">
+                <div th:each="review : ${reviews}" class="card card-pin">
+                    <img class="card-img" th:src="${review.reviewImage != null ? review.reviewImage : '/static/img/default.jpg'}" alt="Review Image">
+                    <div class="overlay">
+                        <h2 class="card-title title" th:text="${review.reviewTitle}">Some Title</h2>
+                        <div class="more">
+                            <a th:href="@{/review/{id}(id=${review.id})}">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 
 <script th:src="@{/js/app.js}"></script>
 <script th:src="@{/js/theme.js}"></script>
 
-<footer class="footer pt-5 pb-5 text-center">
-	<div class="container">
-		<div class="socials-media">
-			<ul class="list-unstyled">
-				<li class="d-inline-block ml-1 mr-1"><a href="#" class="text-dark"><i class="fa fa-facebook"></i></a></li>
-				<li class="d-inline-block ml-1 mr-1"><a href="#" class="text-dark"><i class="fa fa-twitter"></i></a></li>
-				<li class="d-inline-block ml-1 mr-1"><a href="#" class="text-dark"><i class="fa fa-instagram"></i></a></li>
-				<li class="d-inline-block ml-1 mr-1"><a href="#" class="text-dark"><i class="fa fa-google-plus"></i></a></li>
-				<li class="d-inline-block ml-1 mr-1"><a href="#" class="text-dark"><i class="fa fa-behance"></i></a></li>
-				<li class="d-inline-block ml-1 mr-1"><a href="#" class="text-dark"><i class="fa fa-dribbble"></i></a></li>
-			</ul>
-		</div>
-		<p>
-			&copy; <span class="credits font-weight-bold">
-                    <a target="_blank" class="text-dark" href="https://www.wowthemes.net/pintereso-free-html-bootstrap-template/">
-                        <u>Pintereso Bootstrap HTML Template</u> by WowThemes.net.
-                    </a>
-                </span>
-		</p>
-	</div>
-</footer>
+<!-- Footer 포함 -->
+<div th:insert="~{/fragments/footer :: footer}"></div>
 </body>
 </html>

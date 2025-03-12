@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
->
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header>
     <div th:insert="~{/fragments/mainheader::mainheader}"></div>
 </header>
@@ -14,6 +14,9 @@
 <main role="main">
 
     <section class="mt-4 mb-5">
+        <div class="container mb-4">
+            <h1 class="font-weight-bold title">영화</h1>
+        </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="card-columns">

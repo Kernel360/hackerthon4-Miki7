@@ -8,7 +8,8 @@
 
     <!-- Custom fonts for this template-->
     <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
@@ -22,56 +23,40 @@
         <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                <div class="col-lg-5 d-none d-lg-block bg-register-image">
+                    <img th:src="@{/img/av.png}" alt="Register Image" style="width: 100%; height: auto;">
+                </div>
                 <div class="col-lg-7">
                     <div class="p-5">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                            <h1 class="h4 text-gray-900 mb-4">회원 가입</h1>
                         </div>
                         <!-- Registration Form -->
-                        <form th:action="@{/register}" method="post" class="user">
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" name="firstName" class="form-control form-control-user" id="exampleFirstName"
-                                           placeholder="First Name">
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" name="lastName" class="form-control form-control-user" id="exampleLastName"
-                                           placeholder="Last Name">
-                                </div>
+                        <form th:action="@{/user}" th:object="${userRequest}" method="post" class="user">
+                            <div class="form-group">
+                                <input type="email" th:field="*{username}" class="form-control form-control-user"
+                                       id="exampleInputUsername" placeholder="이메일(아이디)">
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail"
-                                       placeholder="Email Address">
+                                <input type="text" th:field="*{nickname}" class="form-control form-control-user"
+                                       id="exampleNickname" placeholder="닉네임">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" name="password" class="form-control form-control-user"
-                                           id="exampleInputPassword" placeholder="Password">
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="password" name="repeatPassword" class="form-control form-control-user"
-                                           id="exampleRepeatPassword" placeholder="Repeat Password">
-                                </div>
+                            <div class="form-group">
+                                    <input type="password" th:field="*{password}" class="form-control form-control-user"
+                                           id="exampleInputPassword" placeholder="비밀번호">
                             </div>
                             <!-- Submit Button -->
-                            <button type="submit" class="btn btn-primary btn-user btn-block">Register Account</button>
-                            <hr>
-                            <!-- Social Registration Buttons -->
-                            <a th:href="@{/register/google}" class="btn btn-google btn-user btn-block">
-                                <i class="fab fa-google fa-fw"></i> Register with Google
-                            </a>
-                            <a th:href="@{/register/facebook}" class="btn btn-facebook btn-user btn-block">
-                                <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                            </a>
+                            <button type="submit" class="btn btn-primary btn-user btn-block">회원 가입</button>
                         </form>
+
+
                         <!-- Links -->
                         <hr>
+<!--                        <div class="text-center">-->
+<!--                            <a th:href="@{/forgot-password}" class="small">Forgot Password?</a>-->
+<!--                        </div>-->
                         <div class="text-center">
-                            <a th:href="@{/forgot-password}" class="small">Forgot Password?</a>
-                        </div>
-                        <div class="text-center">
-                            <a th:href="@{/login}" class="small">Already have an account? Login!</a>
+                            <a th:href="@{/login}" class="small">이미 계정이 있습니다!</a>
                         </div>
                     </div>
                 </div>
