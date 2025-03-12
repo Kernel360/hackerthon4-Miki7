@@ -82,16 +82,16 @@ public class MovieService {
         );
     }
 
-    public void updateMovieScore(Long id, int score) {
-        Optional<MovieEntity> movieEntity = movieRepository.findById(id);
-
-        MovieEntity movie = movieEntity.orElse(null);
-        String currentScore = Objects.requireNonNull(movie).getScore();
-
-        log.info("{}",currentScore);
-        int newScore = Integer.parseInt(String.valueOf(currentScore))+score;
-        log.info("{}",newScore);
-
-        movieRepository.updateScoreById(movie.getId(),Integer.toString(newScore));
-    }
+//    public void updateMovieScore(Long id, int score) {
+//        Optional<MovieEntity> movieEntity = movieRepository.findById(id);
+//
+//        MovieEntity movie = movieEntity.orElse(null);
+//        String currentScore = Objects.requireNonNull(movie).getScore();
+//
+//        log.info("{}",currentScore);
+//        int newScore = Integer.parseInt(String.valueOf(currentScore))+score;
+//        log.info("{}",newScore);
+//
+//        movieRepository.updateScoreById(movie.getId(),Integer.toString(newScore));
+//    }
 }
