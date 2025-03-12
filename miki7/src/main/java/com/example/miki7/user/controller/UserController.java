@@ -84,16 +84,16 @@ public class UserController {
 
     // 내 정보 수정
     @GetMapping(value = "/mypage")
-    public String update(){
+    public String update(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
         log.info("{}",userDetails.getUsername());
         log.info("{}",userDetails.getPassword());
         log.info("{}",userDetails.getAuthorities());
+
         return "redirect:/mypage";
     }
-
 
 }
 

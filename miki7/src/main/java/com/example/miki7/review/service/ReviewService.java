@@ -69,4 +69,8 @@ public class ReviewService {
     public List<CastEntity> getCastsByMovieId(Long movieId) {
         return castRepository.findByMovieId(movieId);
     }
+
+    public List<ReviewEntity> findAllByUserId(Long id) {
+        return reviewRepository.findAllByUser_Id(id);
+    }
 }

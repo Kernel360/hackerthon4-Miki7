@@ -2,6 +2,7 @@ package com.example.miki7.user.db;
 
 import com.example.miki7.review.db.LikeEntity;
 import com.example.miki7.review.db.ReviewEntity;
+import com.example.miki7.user.model.UserDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,4 +45,21 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<LikeEntity> likes;
+
+    // UserEntity -> UserDto 변환 메서드
+    public UserDto toDto() {
+        return UserDto.builder()
+                .id(this.id)
+                .username(this.username)
+                .nickname(this.nickname)
+                .birthDate(this.birthDate)
+                .gender(this.gender)
+                .profileImage(this.profileImage)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .deletedAt(this.deletedAt)
+                .roles(this.roles)
+                .status(this.status)
+                .build();
+    }
 }
