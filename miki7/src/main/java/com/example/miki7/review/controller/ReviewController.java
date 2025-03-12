@@ -54,6 +54,7 @@ public class ReviewController {
         Long userId = userEntity.getId();
         MovieEntity movie = movieService.findMovieById(movieId); // ✅ 변경: MovieService에서 영화 정보 가져오기
         List<CastEntity> castList = reviewService.getCastsByMovieId(movieId); // 해당영화 배역 목록
+//        List<ReviewDto> reviews = reviewService.getReviewsByMovieId(movieId); // ✅ 해당 영화의 리뷰 목록 추가
         List<ReviewDto> reviews = reviewService.getReviewsByMovieId(movieId); // ✅ 해당 영화의 리뷰 목록 추가
 
         model.addAttribute("loginUserId", userId); // 모델에 userId 추가
@@ -144,4 +145,32 @@ public Map<String, Object> updateReview(@RequestBody ReviewRequest reviewRequest
 
     //d 회원은 영화에 대한 리뷰를 삭제할 수 있습니다. (진짜 삭제는 아니고 delete_at 에 날짜만 하면 됨)
 
+    @ResponseBody
+    @PostMapping("/delete")
+    public Map<String, Object> deleteReview(@RequestBody Map<String, Long> requestBody) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            Long reviewId = requestBody.get("reviewId");
+
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            UserEntity userEntity = userService.findByNickname(userDetails.getUsername()).get();
+            Long userId = userEntity.getId();
+
+            boolean isDeleted = reviewService.deleteReview(reviewId, userId);
+
+            if (isDeleted) {
+                response.put("success", true);
+            } else {
+                response.put("success", false);
+                response.put("error", "삭제 권한이 없습니다.");
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", e.getMessage());
+        }
+
+        return response;
+    }
 }
