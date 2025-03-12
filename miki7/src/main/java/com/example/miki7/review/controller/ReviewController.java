@@ -6,6 +6,8 @@ import com.example.miki7.review.db.ReviewEntity;
 import com.example.miki7.review.model.ReviewDto;
 import com.example.miki7.review.model.ReviewRequest;
 import com.example.miki7.review.service.ReviewService;
+import com.example.miki7.user.model.CustomUserDetails;
+import com.example.miki7.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import com.example.miki7.cast.db.CastEntity;
@@ -14,6 +16,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +40,12 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final MovieService movieService;
+    private final UserService userService;
+
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//    UserEntity userEntity = userService.findByNickname(userDetails.getUsername()).get();
+
 
     // 리뷰 작성 폼
     @GetMapping("/new/{movieId}")
@@ -43,6 +53,7 @@ public class ReviewController {
         UserEntity user = (UserEntity) session.getAttribute("loginUser");
 //        Long userId = user.getId();
         Long userId = 1L;
+//        Long userId = userEntity.getId();
         MovieEntity movie = movieService.findMovieById(movieId); // ✅ 변경: MovieService에서 영화 정보 가져오기
         List<CastEntity> castList = reviewService.getCastsByMovieId(movieId); // 해당영화 배역 목록
         List<ReviewDto> reviews = reviewService.getReviewsByMovieId(movieId); // ✅ 해당 영화의 리뷰 목록 추가
@@ -58,6 +69,7 @@ public class ReviewController {
 //아이디 값 확인
         log.info("userId: {}", userId);
 
+
         return "review-form"; // 타임리프 템플릿 (@테스트 완료 바꾸기)
     }
 
@@ -69,6 +81,8 @@ public class ReviewController {
 //        Long userId = user.getId(); // 페이지 연결하고 풀기
         // 로그인하고 페이지 들어갔는데 userId가 없다고 뜸
         Long userId = 1L; // 테스트용
+
+
 
 
         reviewService.saveReview(reviewRequest,userId);
@@ -100,6 +114,9 @@ public Map<String, Object> updateReview(@RequestBody ReviewRequest reviewRequest
 //    UserEntity user = (UserEntity) session.getAttribute("loginUser");
     Long UserId = 1L;
 //    Long UserId = user.getId();
+
+    log.info("reviewRequest: {}", reviewRequest);
+    ////2025-03-12T10:23:12.430+09:00  INFO 9623 --- [miki7] [nio-8080-exec-1] c.e.m.r.controller.ReviewController      : reviewRequest: ReviewRequest(id=3, reviewTitle=1, reviewContent=1, reviewRating=1, reviewImage=null, userId=null, movieId=null, castId=null)
 
     Map<String, Object> response = new HashMap<>();
 

@@ -8,6 +8,7 @@ import lombok.*;
 @Builder
 public class ReviewRequest {
 
+    private Long id;
     private String reviewTitle;
     private String reviewContent;
     private Integer reviewRating;
