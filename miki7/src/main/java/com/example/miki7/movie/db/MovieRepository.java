@@ -32,8 +32,8 @@ public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
                                              @Param("genre") String genre,
                                              @Param("year") String year);
 
-    @Modifying
-    @Transactional
-    @Query("UPDATE MovieEntity m SET m.score = :score WHERE m.id = :id")
-    void updateScoreById(@Param("id") Long id, @Param("score") String score);
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE MovieEntity m SET m.score = :score WHERE m.id = :id")
+//    void updateScoreById(@Param("id") Long id, @Param("score") String score);
 }
