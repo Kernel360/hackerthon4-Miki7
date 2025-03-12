@@ -41,7 +41,11 @@ VALUES
     ('미키17', 'Mickey 17', '2025', 'SF, 드라마', '137', '기술이 없는 그는, 정치인 ‘마셜’의 얼음행성 개척단에서 위험한 일을 도맡고, 죽으면 다시 프린트되는 익스펜더블로 지원하며 생긴 이야기.', 'http://file.koreafilm.or.kr/poster/99/18/72/DPF030617_01.jpg', '5', '정상')
 ON DUPLICATE KEY UPDATE movie_name=VALUES(movie_name);
 
-
+CREATE TABLE IF NOT EXISTS user_roles (
+                                          user_id BIGINT,
+                                          roles VARCHAR(255),
+                                          FOREIGN KEY (user_id) REFERENCES user(id)
+);
 INSERT INTO actor (actor_name) VALUES
                                    ('황정민'),  -- 서울의 봄 (김대중 역)
                                    ('정우성'),  -- 파묘 (주인공)
