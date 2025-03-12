@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -23,6 +24,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public UserDto create(UserRequest userRequest) {
+
+        // username 중복 체크
+        if (userRepository.existsByUsername(userRequest.getUsername())) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다: " + userRequest.getUsername());
+        }
 
         Set<String> roles = new HashSet<>();
         roles.add("USER");
@@ -52,10 +58,9 @@ public class UserService {
         return userConverter.toDto(entity.get());
     }
 
-    public UserDto findByNickname(String nickName){
-        UserEntity entity = (UserEntity) userRepository.findByNickname(nickName);
+    public Optional<UserEntity> findByUsername(String username){
 
-        return userConverter.toDto(entity);
+        return userRepository.findUserEntityByUsername(username);
     }
 
     public List<UserDto> findAll(){
@@ -70,5 +75,9 @@ public class UserService {
     public void update(UserEntity userEntity) {
 
         userRepository.save(userEntity);
+    }
+
+    public Optional<UserEntity> findByNickname(String username) {
+        return userRepository.findByNickname(username);
     }
 }

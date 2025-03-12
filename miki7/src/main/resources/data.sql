@@ -28,8 +28,8 @@ INSERT INTO user_roles (user_id, roles) VALUES (1, 'USER');
 INSERT INTO user_roles (user_id, roles) VALUES (1, 'ADMIN');
 
 -- 🔹 리뷰 작성할 유저 (중복 방지)
-INSERT INTO user (nickname, password)
-SELECT * FROM (SELECT 'reviewer1', '$2a$10$Kph3NohVtPYCqvVNnW7CN.sEIf56uX9iQLPF9YKCEA15wVMQsyE/2') AS tmp
+INSERT INTO user (nickname, password, username)
+SELECT * FROM (SELECT 'reviewer1', '$2a$10$Kph3NohVtPYCqvVNnW7CN.sEIf56uX9iQLPF9YKCEA15wVMQsyE/2','dldjdtjr@gmail.com') AS tmp
 WHERE NOT EXISTS (SELECT 1 FROM user WHERE nickname = 'reviewer1');
 
 INSERT INTO user_roles (user_id, roles)

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <header>
-	<div th:insert="~{/fragments/mainheader::mainheader}"></div>
+    <div th:insert="~{/fragments/mainheader::mainheader}"></div>
 </header>
 
 <body>
@@ -9,32 +9,32 @@
 <div th:insert="~{/fragments/topbar :: topbar}"></div>
 
 <main role="main">
-	<div class="jumbotron border-round-0 min-50vh" th:style="'background-image:url(' + @{/background-image} + ');'">
-	</div>
-	<div class="container mb-4">
-		<img th:src="@{/img/av.png}" class="mt-neg100 mb-4 rounded-circle" width="128">
-		<h1 class="font-weight-bold title" th:text="${authorName}">Sal</h1>
-		<p th:text="${authorDescription}">
-			I love Art, Web Design, Photography, Design, Illustration
-		</p>
-	</div>
-	<div class="container-fluid mb-5">
-		<div class="row">
-			<div class="card-columns">
-				<div th:each="post : ${posts}" class="card card-pin">
-					<img class="card-img" th:src="@{/post-image}">
-					<div class="overlay">
-						<h2 class="card-title title" th:text="${post.title}">Some Title</h2>
-						<div class="more">
-							<a th:href="@{/post/{id}(id=${post.id})}">
-								<i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> More
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="jumbotron border-round-0 min-50vh" th:style="'background-image:url(' + @{/background-image} + ');'">
+    </div>
+    <div class="container mb-4">
+        <img th:src="${user != null ? user.getProfileImage() : 'static/img/av.png'}" alt="Profile Image"/>
+        <h1 class="font-weight-bold title" th:text="${user.getNickname()}">Sal</h1>
+        <p th:text="${user.getUsername()}">
+            I love Art, Web Design, Photography, Design, Illustration
+        </p>
+    </div>
+    <div class="container-fluid mb-5">
+        <div class="row">
+            <div class="card-columns">
+                <div th:each="review : ${reviews}" class="card card-pin">
+                    <img class="card-img" th:src="${review.reviewImage != null ? review.reviewImage : '/static/img/default.jpg'}" alt="Review Image">
+                    <div class="overlay">
+                        <h2 class="card-title title" th:text="${review.reviewTitle}">Some Title</h2>
+                        <div class="more">
+                            <a th:href="@{/review/{id}(id=${review.id})}">
+                                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 
 <script th:src="@{/js/app.js}"></script>
