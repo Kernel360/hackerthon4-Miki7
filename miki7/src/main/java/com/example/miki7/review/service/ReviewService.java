@@ -10,6 +10,7 @@ import com.example.miki7.review.model.ReviewDto;
 import com.example.miki7.review.model.ReviewRequest;
 import com.example.miki7.user.db.UserEntity;
 import com.example.miki7.user.db.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
@@ -72,14 +74,6 @@ public class ReviewService {
     }
 
 
-
-
-
-
-
-
-
-
     // 특정 영화의 리뷰 목록 조회
     public List<ReviewDto> getReviewsByMovieId(Long movieId) {
         List<ReviewEntity> reviews = reviewRepository.findByMovieId(movieId);
@@ -109,7 +103,7 @@ public class ReviewService {
 
     public void updateReview(ReviewRequest reviewRequest, Long userId) {
         // ✅ 리뷰 조회 (해당 리뷰가 존재하는지 확인)
-        ReviewEntity review = reviewRepository.findById(reviewRequest.getMovieId())  // ✅ movieId가 아니라 reviewId 사용해야 함
+        ReviewEntity review = reviewRepository.findById(reviewRequest.getId())  // ✅ movieId가 아니라 reviewId 사용해야 함
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 리뷰입니다."));
 
 //        // ✅ 작성자 확인 (자신이 작성한 리뷰만 수정 가능)
