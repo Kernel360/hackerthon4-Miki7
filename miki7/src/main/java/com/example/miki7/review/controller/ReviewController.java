@@ -9,6 +9,8 @@ import com.example.miki7.review.service.ReviewService;
 import com.example.miki7.user.model.CustomUserDetails;
 import com.example.miki7.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import com.example.miki7.cast.db.CastEntity;
 import com.example.miki7.user.db.UserEntity;
@@ -42,11 +44,15 @@ public class ReviewController {
     private final MovieService movieService;
     private final UserService userService;
 
+
     // 리뷰 작성 폼
     @GetMapping("/new/{movieId}")
     public String showReviewForm(@PathVariable Long movieId, Model model, HttpSession session) {
-        UserEntity user = (UserEntity) session.getAttribute("loginUser");
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 //        Long userId = user.getId();
+
 //        Long userId = 1L;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -56,16 +62,25 @@ public class ReviewController {
         List<CastEntity> castList = reviewService.getCastsByMovieId(movieId); // 해당영화 배역 목록
 //        List<ReviewDto> reviews = reviewService.getReviewsByMovieId(movieId); // ✅ 해당 영화의 리뷰 목록 추가
         List<ReviewDto> reviews = reviewService.getReviewsByMovieId(movieId); // ✅ 해당 영화의 리뷰 목록 추가
+        int totalScore = 0;
+        for(ReviewDto review:reviews){
+            totalScore+=review.getReviewRating();
+        }
+        String averageScore = String.format("%.2f", Double.parseDouble(String.valueOf(totalScore)) / reviews.size());
 
-        model.addAttribute("loginUserId", userId); // 모델에 userId 추가
+        model.addAttribute("loginUserId",userId); // 모델에 userId 추가
         model.addAttribute("movie", movie); // ✅ 영화 정보 추가
         model.addAttribute("movieId", movieId); // 선택한 영화
         model.addAttribute("castList", castList); // 영화에 출연한 배우/배역 목록 선택을 위해
         model.addAttribute("review", new ReviewEntity());
         model.addAttribute("reviews", reviews); // ✅ 영화 리뷰 목록 추가
+        model.addAttribute("avgScore",averageScore);
 
-//        log.info("castList: {}", castList); // ✅ castList 값 확인
-//아이디 값 확인
+        for(CastEntity cast :castList){
+            log.info("cast: {}", cast.getCastName()); // ✅ castList 값 확인
+        }
+
+        //아이디 값 확인
         log.info("userId: {}", userId);
 
 
@@ -77,20 +92,18 @@ public class ReviewController {
     public String saveReview(@ModelAttribute ReviewRequest reviewRequest, HttpSession session) {
 
 
+
 //        Long userId = user.getId(); // 페이지 연결하고 풀기
         // 로그인하고 페이지 들어갔는데 userId가 없다고 뜸
 //        Long userId = 1L; // 테스트용
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         UserEntity userEntity = userService.findByNickname(userDetails.getUsername()).get();
         Long userId = userEntity.getId();
-
-
-
-
         reviewService.saveReview(reviewRequest,userId);
-        return "redirect:/reviews/new/" + reviewRequest.getMovieId(); // @영화 상세페이지 경로로 변경
 
+        return "redirect:/reviews/new/" + reviewRequest.getMovieId(); // @영화 상세페이지 경로로 변경
     }
 
 

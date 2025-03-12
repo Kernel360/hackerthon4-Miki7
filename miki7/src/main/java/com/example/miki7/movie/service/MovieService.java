@@ -6,13 +6,16 @@ import com.example.miki7.movie.model.MovieDto;
 import com.example.miki7.movie.db.MovieRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -78,4 +81,17 @@ public class MovieService {
                 StringUtils.hasText(dto.getYear()) ? dto.getYear() : null
         );
     }
+
+//    public void updateMovieScore(Long id, int score) {
+//        Optional<MovieEntity> movieEntity = movieRepository.findById(id);
+//
+//        MovieEntity movie = movieEntity.orElse(null);
+//        String currentScore = Objects.requireNonNull(movie).getScore();
+//
+//        log.info("{}",currentScore);
+//        int newScore = Integer.parseInt(String.valueOf(currentScore))+score;
+//        log.info("{}",newScore);
+//
+//        movieRepository.updateScoreById(movie.getId(),Integer.toString(newScore));
+//    }
 }
