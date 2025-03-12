@@ -18,6 +18,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +44,10 @@ public class ReviewController {
     private final MovieService movieService;
     private final UserService userService;
 
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//    UserEntity userEntity = userService.findByNickname(userDetails.getUsername()).get();
+
     // 리뷰 작성 폼
     @GetMapping("/new/{movieId}")
     public String showReviewForm(@PathVariable Long movieId, Model model, HttpSession session) {
@@ -49,10 +55,8 @@ public class ReviewController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 //        Long userId = user.getId();
-
         UserEntity userEntity = userService.findByNickname(userDetails.getUsername()).get();
         Long userId = userEntity.getId();
-
         MovieEntity movie = movieService.findMovieById(movieId); // ✅ 변경: MovieService에서 영화 정보 가져오기
         List<CastEntity> castList = reviewService.getCastsByMovieId(movieId); // 해당영화 배역 목록
         List<ReviewDto> reviews = reviewService.getReviewsByMovieId(movieId); // ✅ 해당 영화의 리뷰 목록 추가
@@ -73,6 +77,7 @@ public class ReviewController {
         //아이디 값 확인
         log.info("userId: {}", userId);
 
+
         return "review-form"; // 타임리프 템플릿 (@테스트 완료 바꾸기)
     }
 
@@ -83,6 +88,8 @@ public class ReviewController {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         UserEntity userEntity = userService.findByNickname(userDetails.getUsername()).get();
         Long userId = userEntity.getId();
+
+
 
         reviewService.saveReview(reviewRequest,userId);
         movieService.updateMovieScore(reviewRequest.getMovieId(),reviewRequest.getReviewRating());
@@ -114,6 +121,9 @@ public Map<String, Object> updateReview(@RequestBody ReviewRequest reviewRequest
 //    UserEntity user = (UserEntity) session.getAttribute("loginUser");
     Long UserId = 1L;
 //    Long UserId = user.getId();
+
+    log.info("reviewRequest: {}", reviewRequest);
+    ////2025-03-12T10:23:12.430+09:00  INFO 9623 --- [miki7] [nio-8080-exec-1] c.e.m.r.controller.ReviewController      : reviewRequest: ReviewRequest(id=3, reviewTitle=1, reviewContent=1, reviewRating=1, reviewImage=null, userId=null, movieId=null, castId=null)
 
     Map<String, Object> response = new HashMap<>();
 
