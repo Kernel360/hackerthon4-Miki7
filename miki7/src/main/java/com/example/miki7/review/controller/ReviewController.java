@@ -54,8 +54,6 @@ public class ReviewController {
 //        Long userId = user.getId();
 
 //        Long userId = 1L;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         UserEntity userEntity = userService.findByNickname(userDetails.getUsername()).get();
         Long userId = userEntity.getId();
         MovieEntity movie = movieService.findMovieById(movieId); // ✅ 변경: MovieService에서 영화 정보 가져오기
