@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns:th="http://www.thymeleaf.org">
 <header>
     <div th:insert="~{/fragments/mainheader::mainheader}"></div>
 </header>
@@ -16,6 +15,7 @@
     <section class="mt-4 mb-5">
         <div class="container-fluid">
             <div class="row">
+                <p class="font-weight-bold">영화</p>
                 <div class="card-columns">
                     <div class="card card-pin" th:each="movie : ${movies}">
                         <img class="card-img" th:src="${movie.poster}" alt="Card image">

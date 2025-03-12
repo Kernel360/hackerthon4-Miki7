@@ -1,8 +1,10 @@
 package com.example.miki7.movie.db;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,4 +31,9 @@ public interface MovieRepository extends JpaRepository<MovieEntity, Long> {
                                              @Param("movieName") String movieName,
                                              @Param("genre") String genre,
                                              @Param("year") String year);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE MovieEntity m SET m.score = :score WHERE m.id = :id")
+    void updateScoreById(@Param("id") Long id, @Param("score") String score);
 }
